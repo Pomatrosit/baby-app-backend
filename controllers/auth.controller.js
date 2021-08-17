@@ -8,7 +8,7 @@ const generateAccessToken = (id, name) => {
     id,
     name,
   }
-  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h" })
+  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "24h" })
 }
 
 class AuthController {
@@ -27,7 +27,8 @@ class AuthController {
       if (validationErrors.length > 0)
         return res.status(400).json({
           err: true,
-          message: "Ошибка валидации",
+          errCode: 1,
+          message: "Ошибка валидации при регистрации",
           data: validationErrors,
         })
 
@@ -38,6 +39,7 @@ class AuthController {
       if (candidate.rows.length > 0)
         return res.status(400).json({
           err: true,
+          errCode: 2,
           message: "Пользователь с таким логином уже существует",
         })
 
@@ -51,7 +53,9 @@ class AuthController {
         message: "Пользователь успешно создан",
       })
     } catch (err) {
-      res.status(500).json({ message: "Неизвестная ошибка сервера" })
+      res
+        .status(500)
+        .json({ err: true, errCode: 0, message: "Неизвестная ошибка сервера" })
     }
   }
 
@@ -64,6 +68,7 @@ class AuthController {
       if (user.rows.length === 0)
         return res.status(400).json({
           err: true,
+          errCode: 3,
           message: "Неверный логин или пароль",
         })
 
@@ -73,6 +78,7 @@ class AuthController {
       if (!isPasswordValid) {
         return res.status(400).json({
           err: true,
+          errCode: 3,
           message: "Неверный логин или пароль",
         })
       }
@@ -81,7 +87,9 @@ class AuthController {
       const token = generateAccessToken(user.id, user.name)
       return res.status(200).json({ err: false, token })
     } catch (err) {
-      res.status(500).json({ message: "Неизвестная ошибка сервера" })
+      res
+        .status(500)
+        .json({ err: true, errCode: 0, message: "Неизвестная ошибка сервера" })
     }
   }
 }
