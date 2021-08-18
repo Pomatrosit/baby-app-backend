@@ -18,11 +18,11 @@ class AuthController {
 
       // Валидация
       const validationErrors = []
-      if (!validator.isLength(String(name), { min: 2, max: 30 }))
+      if (!name || !validator.isLength(String(name), { min: 2, max: 30 }))
         validationErrors.push("Длина имени должна быть от 2 до 30 символов")
-      if (!validator.isLength(String(login), { min: 2, max: 30 }))
+      if (!login || !validator.isLength(String(login), { min: 2, max: 30 }))
         validationErrors.push("Длина логина должна быть от 2 до 30 символов")
-      if (!validator.isLength(String(password), { min: 8 }))
+      if (!password || !validator.isLength(String(password), { min: 8 }))
         validationErrors.push("Минимальная длина пароля - 8 символов")
       if (validationErrors.length > 0)
         return res.status(400).json({
