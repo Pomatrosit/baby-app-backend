@@ -36,7 +36,7 @@ class childrenController {
       }
       const { name, sex, born } = req.body
       const child = await db.query(
-        `INSERT INTO children (user_id, name, sex, born) VALUES ('${userId}', '${name}', '${sex}', '${born}') RETURNING *`
+        `INSERT INTO children (user_id, name, sex, born) VALUES ('${user.id}', '${name}', '${sex}', '${born}') RETURNING *`
       )
       res.json(child.rows[0])
     } catch (err) {
