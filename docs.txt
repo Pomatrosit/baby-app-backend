@@ -1,0 +1,74 @@
+Коды ошибок
+
+0 - Неизвестная ошибка сервера
+1 - Ошибка валидации при регистрации
+2 - Пользователь с таким логином уже существует
+3 - Неверный логин или пароль
+4 - Ошибка авторизации. ( Протухший токен / Невалидный токен ) // Перенаправить на страницу Логина
+
+Пример ответа с ошибкой 
+{
+    "err": true,
+    "errCode": 4,
+    "message": "Ошибка авторизации. Невалидный токен"
+}
+
+Пример ответа без ошибки
+
+{
+    "err": false,
+    "data": {
+        "id": 14,
+        "user_id": "29",
+        "sex": "girl",
+        "name": "Тестовый ребенок",
+        "born": "2001-12-31T21:00:00.000Z"
+    }
+}
+
+***************************************
+
+Роут /auth/register (Регистрация)
+
+Пример запроса 
+{
+    "name": "Дaнил",
+    "login": "kotov1488",
+    "password": "12345678"
+}
+
+Пример ответа 
+
+{
+    "err": false,
+    "message": "Пользователь успешно создан"
+}
+
+Роут /auth/login (Авторизация)
+
+Пример запроса 
+
+{
+    "login": "kotov14",
+    "password": "12345678"
+}
+
+Пример ответа
+
+{
+    "err": false,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5IiwibmFtZSI6ItCU0LDQvdC40LsiLCJpYXQiOjE2MzAxMTYyNTcsImV4cCI6MTYzMDIwMjY1N30.RHYnW91C7G7sxlUCXWie0fGbxtw63hDAn-hh6V4UxSg"
+}
+
+Токен записываем в localStorage и все последующие запросы сопровождаются Header'ом 'Authorization'
+со значением 'Bearer {token}'
+
+Пример
+Headers: {
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5IiwibmFtZSI6ItCU0LDQvdC40LsiLCJpYXQiOjE2MzAxMTUxMTAsImV4cCI6MTYzMDIwMTUxMH0.9xlA0deJ2FoKuAQJJDCxNt5Kc9YqM1OFrQDmkppAWgk'
+}
+
+
+
+
+
